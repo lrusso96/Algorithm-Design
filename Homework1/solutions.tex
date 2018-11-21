@@ -42,7 +42,8 @@ $do_k = 1 =>  do_k = 1 \leq dg_k \leq 2* 1 = 2 => dg_k = 1 OK$, since 2 is not a
 $do_k = 3 =>  do_k = 3 \leq dg_k \leq 2* 3 = 6 => dg_k = 3 OK$, since 3 is the only value greater or equal than 3 and less or equal than 3.
 This is true for every k. We have that the greedy algorithm computes as well as the optimal solution.
 
-\section{}
+\section{Streets and avenues}
+Use the Vertex Cover for Bipartite graph. This NP problem can be solve in polynomial time with a simple algorithm. First find a matching on the bipartite graph. Then create the set Z = all nodes not reached by the matching. Then add to Z all nodes that can be reached by Z with an alternating path (non-matching and matching!). Then return the set of nodes \ Z.
 \section{}
 \section{}
 \section{Federico and MST}
