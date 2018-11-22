@@ -1,6 +1,6 @@
 X = set of points
 
-def algorithm():
+def ex_1():
     C = emptyset
     N = X   #work on a local copy
     dist_from_c = []    #array containing the minimum distances from C
