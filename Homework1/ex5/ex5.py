@@ -3,15 +3,6 @@ from networkx.utils import UnionFind
 from math import isnan
 from collections import defaultdict
 
-def build_test_graph():
-    G = nx.Graph()
-    G.add_edge(1, 2, weight=2)  # specify edge data
-    G.add_edge(3, 4, weight=4)  # specify edge data
-    G.add_edge(1, 4, weight=3)  # specify edge data
-    G.add_edge(2, 4, weight=3)  # specify edge data
-    G.add_edge(1, 3, weight=5)  # specify edge data
-    return G
-
 def _has_MST(G, start, end, visited, threshold, debug = False):
     visited.add(start)
     if debug:
@@ -89,14 +80,25 @@ def boruvka_mst_edges(G, fixed, debug = False):
                 yield u, v, d
                 forest.union(u, v)
 
-def print_edges(edges):
+# print the edges of the MST
+def weight_of(edges):
     weight = 0
     print("Edges of MST:")
     for e in edges:
         w = e[2]["weight"]
         print(e[0], "->", e[1], "( w:", w ,")")
         weight += w
-    print("Total weigth:", weight)
+    return weight
+
+# used to test the algorithm
+def build_test_graph():
+    G = nx.Graph()
+    G.add_edge(1, 2, weight=2)  # specify edge data
+    G.add_edge(3, 4, weight=4)  # specify edge data
+    G.add_edge(1, 4, weight=3)  # specify edge data
+    G.add_edge(2, 4, weight=3)  # specify edge data
+    G.add_edge(1, 3, weight=5)  # specify edge data
+    return G
 
 def test():
     G = build_test_graph()
@@ -106,10 +108,21 @@ def test():
     fixed_edges.append([1,2,{"weight": 2}])
     fixed_edges.append([2,4,{"weight": 3}])
     fixed_edges.append([1,4,{"weight": 3}])
+
+    edges = nx.minimum_spanning_edges(G)
+    w = 0
+    for e in edges:
+        w+= e[2]["weight"]
         
     for fixed in fixed_edges:
         if has_MST(G, fixed):
-            print_edges(boruvka_mst_edges(G, fixed))
+            edges = boruvka_mst_edges(G, fixed)
+            current_w = weight_of(edges)
+            if current_w == w:
+                print("ok")
+            else:
+                print(current_w, w)
+                raise ValueError()
         else:
             print("no MST!")
 

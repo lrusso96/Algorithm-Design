@@ -2,19 +2,19 @@ X = set of points
 
 def ex_1():
     C = emptyset
-    N = X   #work on a local copy
-    dist_from_c = []    #array containing the minimum distances from C
+    N = X   # work on a local copy
+    dist_from_c = []    # array containing the minimum distances from C
 
-    picked = random in C #first point can be whatever
+    picked = C.get(0) #first center can be whatever
 
     while N is not empty:
-        N.remove(picked)
+        N.remove(picked)	# remove from N and add to centers set
         C.add(picked)
         max_d = -1
         next_point = null
-        foreach point in N:
+        for point in N:
             if d(picked, point) < dist_from_c[point):
-                dist_from_c[point] = d(picked, point)   #update minimum dist of a point if the new center is nearer
+                dist_from_c[point] = d(picked, point)   # update minimum dist of a point if the new center is nearer
 
             if dist_from_c[point] > max_d:  
                 max_d = dist_from_c[point]  #update max distance from current set of centers
