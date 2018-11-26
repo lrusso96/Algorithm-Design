@@ -55,13 +55,28 @@ These lines cross in m x n intersections. On $k \in {1, ... ,m x n}$ of these in
 horizontal streets and vertical avenues. Clearly, you can always select all m+n of these streets and avenues. The challenge therefore is to select a smallest subset of these streets and avenues such that each checkpoint is in the visibility range of a camera.
 
 \subsection{The algorithm}
-Use the Vertex Cover for Bipartite graph. This NP problem can be solve in polynomial time with a simple algorithm. First find a matching on the bipartite graph. Then create the set Z = all nodes not reached by the matching. Then add to Z all nodes that can be reached by Z with an alternating path (non-matching and matching!). Then return the set of nodes \ Z.
+\begin{enumerate}
+	\item Consider the starting grid as the biadjacency matrix of a graph $G = (S, A)$, where S is the set of the streets and A is the set of the avenues: each checkpoint marks the presence of an edge of capacity 1.
+	\item Create a super-source node connected to all the nodes in S and a super-sink node connected to all the nodes in A. The capacity of each of these edges is set to 1.
+	\item Run Ford-Fulkerson algorithm to find the minimum-capacity cut C.
+	\item Define $L1 := L \cap C$, $L2 := L - C$, $R1 := R \cap C$, $R2 := R - C$
+	\item Let B be the set of vertices in R2 that have neighbors in L1
+	\item Return as output the set $O:= L2 \cup R1 \cap B$
+\end{enumerate}
 
 \subsubsection{Running time}
+Finding the minimum capacity cut in the first part costs only O(EV) if we use Ford Fulkerson. Continue...
 
 \subsubsection{Proof of correctness}
+The starting schema can be seen as the biadjacency matrix of a graph G = (S, A), where S is the set of the streets and A is the set of the avenues. Every checkpoint can be interpreted as an edge (u,v), with $u \in S$ and $v \in A$. What we want to find is the so called vertex cover, i.e. a set of nodes such that each edge of the graph has at least one endpoint in the set.
 
+1. The output is a vertex cover
+The set O covers all edges that have an endpoint either in L2 or R1, because
+O includes all of L2 and all or R1. Regarding the remaining edges, that is, those that have endpoint in L1 and the other endpoint in R2, all such edges are covered by B.
+
+2. Minimum set that satisfies it.
 \section{Birtday NP}
+Reduce to Crique problem.
 
 \section{Hiring process}
 
