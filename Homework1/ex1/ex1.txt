@@ -1,24 +1,26 @@
-X = set of points
+X = set of all points
 
 def ex_1():
-    C = emptyset
+    C = []  # array of centers
     N = X   # work on a local copy
     dist_from_c = []    # array containing the minimum distances from C
 
-    picked = C.get(0) #first center can be whatever
+    picked = C.get(0) # first center can be whatever
 
-    while N is not empty:
+    while N is not empty {
         N.remove(picked)	# remove from N and add to centers set
-        C.add(picked)
+        C.append(picked)	# add point to array of centers
         max_d = -1
         next_point = null
-        for point in N:
-            if d(picked, point) < dist_from_c[point):
+        for point in N {
+            if d(picked, point) < dist_from_c[point)
                 dist_from_c[point] = d(picked, point)   # update minimum dist of a point if the new center is nearer
 
-            if dist_from_c[point] > max_d:  
+            if dist_from_c[point] > max_d  
                 max_d = dist_from_c[point]  #update max distance from current set of centers
                 next_point = point  #update next point to pick (the farthest as now)
-                
-        picked = next_point
-    
+         }
+         picked = next_point
+    }
+
+    return C
