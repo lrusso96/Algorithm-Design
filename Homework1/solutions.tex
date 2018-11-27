@@ -51,30 +51,25 @@ And this is true for every k.
 
 \section{Streets and avenues}
 Consider a city with m parallel horizontal streets and n parallel vertical avenues.
-These lines cross in m x n intersections. On $k \in {1, ... ,m x n}$ of these intersections, special checkpoints are placed. We want to place video cameras on a subset of the streets and of the avenues such that each checkpoint is in the visibility range of a camera. A camera allows to monitor all the checkpoints of an avenue or of a street. The subset of may contain both
-horizontal streets and vertical avenues. Clearly, you can always select all m+n of these streets and avenues. The challenge therefore is to select a smallest subset of these streets and avenues such that each checkpoint is in the visibility range of a camera.
+These lines cross in $m \times n$ intersections. On $k \in \{1, ... ,m \times n\}$ of these intersections, special checkpoints are placed. We want to place video cameras on a subset of the streets and of the avenues such that each checkpoint is in the visibility range of a camera. A camera allows to monitor all the checkpoints of an avenue or of a street. The subset of may contain both
+horizontal streets and vertical avenues. Clearly, you can always select all m + n of these streets and avenues. The challenge therefore is to select a smallest subset of these streets and avenues such that each checkpoint is in the visibility range of a camera.
 
 \subsection{The algorithm}
 \begin{enumerate}
 	\item Consider the starting grid as the biadjacency matrix of a graph $G = (S, A)$, where S is the set of the streets and A is the set of the avenues: each checkpoint marks the presence of an edge of capacity 1.
-	\item Create a super-source node connected to all the nodes in S and a super-sink node connected to all the nodes in A. The capacity of each of these edges is set to 1.
+	\item Create a super-source node connected to all the nodes in S and a super-sink node connected to all the nodes in A. The capacity of each of these edges is set to 1. Call G' such a graph.
 	\item Run Ford-Fulkerson algorithm to find the minimum-capacity cut C.
 	\item Define $L1 := L \cap C$, $L2 := L - C$, $R1 := R \cap C$, $R2 := R - C$
-	\item Let B be the set of vertices in R2 that have neighbors in L1
-	\item Return as output the set $O:= L2 \cup R1 \cap B$
+	\item Let B be the set of nodes in R2, s.t. there is some edge from them to L1.
+	\item Return as output the set $O:= L2 \cup R1 \cup B$
 \end{enumerate}
 
 \subsubsection{Running time}
-Finding the minimum capacity cut in the first part costs only O(EV) if we use Ford Fulkerson. Continue...
+Finding the minimum capacity cut in the first part costs only O(nm) if we use Ford Fulkerson. Once we compute the cut with minimum capacity we just have to make some intersections between L, R and C. In particular: L1 and L2 can be computed in O(m), R1 and R2 in O(n) and also B can be computed considering the edges between L1 and R2; remember that the maximum number of edges can be nm. So the total cost of the algorithm is bounded to O(nm).
 
 \subsubsection{Proof of correctness}
 The starting schema can be seen as the biadjacency matrix of a graph G = (S, A), where S is the set of the streets and A is the set of the avenues. Every checkpoint can be interpreted as an edge (u,v), with $u \in S$ and $v \in A$. What we want to find is the so called vertex cover, i.e. a set of nodes such that each edge of the graph has at least one endpoint in the set.
-
-1. The output is a vertex cover
-The set O covers all edges that have an endpoint either in L2 or R1, because
-O includes all of L2 and all or R1. Regarding the remaining edges, that is, those that have endpoint in L1 and the other endpoint in R2, all such edges are covered by B.
-
-2. Minimum set that satisfies it.
+The output set O covers all edges that have an endpoint either in L2 or R1, because O includes all nodes of L2 and all nodes or R1. The nodes that have endpoint in L1 and the other endpoint in R2 are covered by B. This means that O covers all the nodes "involved" in the checkpoints. Moreover, there is no other set, with lower cardinality, that satisfies this property. In fact, Let k be the capacity of the minimum capacity cut. Then $k = |L2| + |R1| + |edges(L1,R2)|$ and so $k > |L2| + |R1| + |B| = |O|$. But k is equal to the capacity of the minimum cut in G', which is equal to the cost of the maximum flow in G' which is equal to the size of the maximum matching in G (for Konig theorem). This means that G has a matching of size k, and so every vertex cover must have size $>= k >= |O|$.
 \section{Birtday NP}
 Reduce to Crique problem.
 
