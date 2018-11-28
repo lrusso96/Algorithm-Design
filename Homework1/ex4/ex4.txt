@@ -1,0 +1,23 @@
+at a certain task (id = i, period = t):
+
+def ex4(w, prev_t, task):
+
+	//handle last task
+	if task == last:
+		if w == 0:
+			min ( Hire + Salary + Severance, Freelance)
+		if w == 1:
+			Salary*(task.t - t_prev) + Severance
+
+	return!
+
+	op1 = ex4(w=0, task.t, task.next)
+	op2 = ex4(w=1, task.t, task.next)
+
+	if w == 0:
+		min ( Hire + Salary + op2, Hire + Salary + Severance + op1, Freelance + op1)
+	if w == 1:
+		 Salary*(task.t - t_prev) + min (op2, Severance + op1)	//check!
+
+def main(tasks):
+	ex4(w=0, NULL, tasks)
