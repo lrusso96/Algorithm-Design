@@ -1,1 +1,11 @@
 \section{Hiring process}
+\begin{enumerate}
+	\item A consulting company can execute tasks requested from its customers either with hired personnel or with freelance workers. The set of tasks is presented on a subset S of time instants \{1, ... T\}. If task $j_t$ is assigned to a hired employee of the consulting company, the cost is given by his daily salary s. If task $j_t$ is outsourced to a freelance worker, the paid cost is $c_t$ and it depends on the specific task and time instant. A worker can be hired at any time by paying him a hiring cost C and fired at any later time by paying a severance cost S.
+	\newline
+	\textbf{Goal:} Design an optimal strategy that runs in polynomial time that minimizes the total cost of executing the tasks. The total cost should include the costs paid to the freelances workers and the costs paid for hiring, firing and the salaries of the hired personnel. Prove that the algorithm is correct and provide an analysis of its running time. Implement the algorithm with a programming language of your choice.
+	\item Assume now that task $j_t$ requires a set $W_t \subseteq W, |W| = k$, of a constant number k of different types of workers. The company should therefore decide which types of workers to hire and which types of workers to outsource. The salary cost for any time instant is the same for all types of workers as well as the hiring and the firing cost. The cost of worker $j \in W$ varies with time: the cost of worker $j \in W$ is equal to $c_t^j$.
+	\newline
+	\textbf{Goal:} Design an optimal strategy that runs in polynomial time that minimizes the total cost of executing the tasks.
+	\newline
+	\textbf{Hint:} Use dynamic programming for both exercises. The polynomial running time of the	final algorithm in the second exercise should depend on T and on $2^k$. Start with the case k = 2 an generalize the approach from there.
+\end{enumerate}
