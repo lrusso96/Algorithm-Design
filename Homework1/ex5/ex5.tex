@@ -1,0 +1,43 @@
+\section{Federico and MST}
+Federico is a mathematician who doesn't like stories and wants the exercise to get to the point.
+\newline
+\textbf{Goal:} We are given a weighted graph G(V, E). Let e $\in$ E.
+\begin{enumerate}
+	\item Design an algorithm that decides whether or not there exists a minimum spanning tree containing e. For full marks, the algorithm must run in time at most $O(|V | + |E|)$.
+	\item Design an algorithm that computes a minimum spanning tree containing e, if one exists. For full marks, the algorithm must run in time at most $O(|E| log |E|)$. Implement the algorithm with a programming language of your choice.
+\end{enumerate}
+
+\subsection{The algorithm}
+Given e = (u,v):
+\begin{enumerate}
+	\item run a DFS from the endpoint u \textbf{considering only those edges that have weight less than that of e}.
+	\item Two possible cases:
+	\begin{enumerate}
+		\item If during the DFS there is an edge that leads to node v, then the edge e does not belong to any MST.
+		\item If the DFS terminates and case 1 never happens, then there exist some MST that contains e.
+	\end{enumerate}
+\end{enumerate}
+
+\subsubsection{Running time}
+This is a simple variant of a DFS on a graph: the fact that we "filter" the edges can lead even to a reduction of visited nodes. In the worst case we know that DFS costs $O(|V| + |E|)$ and this is still the upper bound of algorithm 5.1.
+
+\subsubsection{Source code}
+See next sections.
+
+\subsubsection{Proof of correctness}
+I have used the MST cycle property in this way: we know that given a cycle in a graph, the largest edge among the ones that form the cycle cannot belong to a MST. So, the DFS run above tries to connect \textit{u} and \textit{v} with edges \textbf{strictly lower} than \textit{e}: if this happens, it means that there exist some cycle in the graph that connects \textit{u} and \textit{v} and, of course, such cycle contains the edge e: since all the edges considered during our \textit{custom} DFS are strictly lower than \textit{e}, we can conclude that \textit{e} is the largest edge in a cycle of the graph. So, by the MST cycle property, \textit{e} cannot belong to any MST. Since this condition is necessary and sufficient, this is enough for our proof.
+
+\subsection{The algorithm}
+\begin{enumerate}
+	\item Run the algorithm 5.1: if \textit{e} cannot belong to any MST throw an error.
+	\item Run a \textit{custom} Boruvka, whit all disconnected components, except \textit{u} and \textit{v}: we connect them since the beginning adding edge \textit{e} to the MST.
+\end{enumerate}
+
+\subsubsection{Running time}
+The first part of the algorithm is run the 5.1, whose cost is $O(|V| + |E|)$. In the second part we perform a custom Boruvka, that is actually a Boruvka after a single union operation. This means that we can fix the bound of the algorithm to the well-known one of Boruvka: $O(|E| log|V|)$. If we assume that the graph is connected this is $\leq O(|E| log|E|)$.
+
+\subsubsection{Source code}
+I have implemented the exercise in Python language, using networkx library for graph management (add nodes, get adjacent nodes, etc.). The code is attached as ex5.py.
+
+\subsubsection{Proof of correctness}
+The algorithm 5.1 is able to verify that a MST with edge \textit{e} really exists. Once we know that such MST can be built, we run a custom version of Boruvka algorithm. Since we know that a MST with edge \textit{e} exists, we also know that \textit{u} and \textit{v} belong to the same connected component; moreover, we know that the edge \textit{e} must be part of the MST and \textit{e} is the edge (the only one of course in the MST we compute) that has to connect \textit{u} and \textit{v}. So we start Boruvka initializing all the nodes (except \textit{u} and \textit{v}) as disconnected components: as for \textit{u} and \textit{v}, we bind them to the same connected component (with edge \textit{e}). Now, Boruvka algorithm will run and produce a MST: we can be sure about that because this algorithm is designed to find a MST starting from a forest of disconnected components. \textbf{Note:} The algorithm will fail if the graph is not connected actually, but we can assume the graph is always connected, or we can check easily at the end of the algorithm if the current MST is really a tree: the number of edges \textit{returned} must be n-1. 
