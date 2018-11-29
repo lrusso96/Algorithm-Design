@@ -1,23 +1,56 @@
 at a certain task (id = i, period = t):
 
-def ex4(w, prev_t, task):
+def ex4(w, prev_t, tasks):
+
+	curr_t = tasks[0].t
+	current = all in tasks with same t (pop)
 
 	//handle last task
-	if task == last:
+	if tasks == empty:
 		if w == 0:
-			min ( Hire + Salary + Severance, Freelance)
+			min ( Hire + Salary + Severance, Freelance(current))
 		if w == 1:
-			Salary*(task.t - t_prev) + Severance
+			Salary*(current.t - t_prev) + Severance
 
 	return!
 
-	op1 = ex4(w=0, task.t, task.next)
-	op2 = ex4(w=1, task.t, task.next)
+	op1 = ex4(w=0, curr_t, tasks)
+	op2 = ex4(w=1, curr_t, tasks)
 
 	if w == 0:
-		min ( Hire + Salary + op2, Hire + Salary + Severance + op1, Freelance + op1)
+		min ( Hire + Salary + op2, Hire + Salary + Severance + op1, Freelance(current) + op1)
 	if w == 1:
 		 Salary*(task.t - t_prev) + min (op2, Severance + op1)	//check!
 
 def main(tasks):
 	ex4(w=0, NULL, tasks)
+
+
+def ex4_2(w, t, tasks):
+
+	current = all in tasks with time t
+
+	//handle first tasks
+	if t == first
+		op1 = op2 = 0
+	return!
+
+	op1 = ex4(w=0, t-1, tasks)
+	op2 = ex4(w=1, t-1, tasks)
+
+	if w == 0:
+		Freelance(current) + min (op1 + , op2 + Severance)
+	if w == 1:
+		 Salary + min(op1 + Hire, op2)
+def main(tasks):
+	m = [2][T] = +inf
+	for i in T:
+		current = all tasks of time t = i
+		op1 = m[0][i-1] //0 if i = 0
+		op2 = m[1][i-1] // 0 if i = 0
+		m[0][i] = Freelance(current) + min(op1, op2 + Severance)
+		m[1][i] = Salary + min(op1 + Hire, op2)
+	return min(m[0][T], m[1][T])
+		
+		
+		
