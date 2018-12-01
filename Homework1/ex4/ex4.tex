@@ -9,3 +9,43 @@
 	\newline
 	\textbf{Hint:} Use dynamic programming for both exercises. The polynomial running time of the	final algorithm in the second exercise should depend on T and on $2^k$. Start with the case k = 2 an generalize the approach from there.
 \end{enumerate}
+
+\subsection{The algorithm}
+Given a sequence of tasks, ordered by period t, the algorithm creates a matrix of costs. There are 2 rows and T columns: matrix[r][c] is the minimum cost if you decide to have r workers in period c, where r is either 0 or 1. This matrix is built for each period t, considering which is the best option of the previous period that leads, with all the necessary costs, to the current one. For example, matrix[1][5] can derive from two previous cases: matrix[1][4] and matrix[0][4]; in the first case we have just to pay the daily salary, since the worker has already been hired, instead in the second one we should also pay the hiring cost.
+\begin{enumerate}
+	\item For every period $t \in \{1,..., T\}$ take all tasks that have to be processed in period t.
+	\item There are two possible cases:
+	\begin{enumerate}
+		\item assign all the tasks to a worker: for sure we have to pay the salary for period t: add to it the minimum between matrix[0][t-1] plus the hiring cost and matrix[1][t-1]. 
+		\item assign all the tasks (if any) to freelancers: pay all the outsource costs and add to this the minimum between matrix[0][t-1] and matrix[1][t-1] plus the severance cost.
+	\end{enumerate}
+	\item return the minimum between matrix[0][T] and matrix[1][T]
+\end{enumerate}
+
+\subsubsection{Running time}
+There are T iterations: at each of these the algorithm collects all the tasks belonging to that period and makes a binary decision, based on the costs already computed at the previous iteration. The cost per period, indeed, is O(1) since it is based on precomputed values. The overall cost of the algorithm is O(T).
+
+\subsubsection{Source code}
+I have implemented the exercise in Python language. The code is attached as ex4\_1.py.
+
+\subsubsection{Proof of correctness}
+For each period t there are two possible cases: either we have a hired worker who can process all the tasks, or we do not have him: in this case, if there is some task to be processed, it has to be assigned necessarily to freelancers. The algorithm minimizes the cost of having 0 or 1 worker for every period, basing its analysis on the previous computations.
+
+\subsection{The algorithm}
+Given a sequence of tasks, ordered by period t, and a number of skills k, the algorithm creates a matrix of costs. There are $2^k$ rows and T columns: matrix[mask][c] is the minimum cost if you decide to have $\# workers(mask)$ in period c, where mask represents a combination of hired workers (e.g. "0111" means that we have hired workers with skills 1,2,3 and no hired worker with skill 0). This matrix is built for each period t, considering which is the best option of the previous period that leads, with all the necessary costs, to the current one. Again, the minimum cost has to take in consideration possible firings, hirings and outsource costs.
+\begin{enumerate}
+	\item For every period $t \in \{1,..., T\}$ take all tasks that have to be processed in period t.
+	\item There are $2^k$ possible cases, corresponding to different masks (combinations of hired workers): in particular, we could have or not a worker with a skill s1.
+	\begin{enumerate}
+		\item for each of these combinations, minimize the cost for a given mask and a given period, based on the previous costs.
+	\end{enumerate}
+	\item return the minimum between matrix[$mask_1$][T], matrix[$mask_2$][T], ... matrix[$mask_{2^k}$][T]
+\end{enumerate}
+
+\subsubsection{Running time}
+The number of iterations is always T (as in the first algorithm). What changes is the number of possible choices we can make at each step: this is $2^k$. Since these choices all use precomputed values, this means that the cost per choice is constant O(1), for an overall O($T \cdot 2^k$).
+
+\subsubsection{Source code}
+I have implemented the exercise in Python language. The code is attached as ex4\_2.py.
+
+\subsubsection{Proof of correctness}

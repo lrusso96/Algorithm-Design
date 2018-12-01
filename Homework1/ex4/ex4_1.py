@@ -46,7 +46,7 @@ def ex4_1(tasks, hire,, salary, severance):
     print(m)
     return min(m[0][T], m[1][T])
 
-def main():
+def test():
     tasks = build_test_tasks()
     for task in tasks:
         print(task)
