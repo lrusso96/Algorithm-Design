@@ -21,7 +21,11 @@ def build_test_tasks():
     return tasks
 
 def init_cost(mask, hire):
-    return [ (mask.count("1") * hire) ]
+    hire_cost = 0
+    for i in range(len(mask)):
+        if mask[i] == "1":
+            hire_cost += hire[i]
+    return [ hire_cost ]
 
 def dynamic_matrix(T, masks, hire):
     m = {}
@@ -40,20 +44,44 @@ def total_cost_of_freelance(tasks, freelancers):
             tot += task.skills[f] * task.outsource
     return tot
 
+def total_cost_of_salary(salary, hired):
+    tot = 0
+    for h in hired:
+        tot += salary[h]
+    return tot
+
+def total_cost_of_hire(hire, hiring):
+    tot = 0
+    for h in hiring:
+        tot += hire[h]
+    return tot
+
+def total_cost_of_severance(severance, firing):
+    tot = 0
+    for f in firing:
+        tot += severance[f]
+    return tot
+
 def total_cost(opt, tasks, mask_1, mask_2, hire, salary, severance):
-    n_h = 0
     freelancers = []
-    n_f=0
+    hiring = []
+    hired = []
+    firing = []
     for i in range(len(mask_1)):
         if mask_2[i] == "0":
             freelancers.append(i)
             if mask_1[i] == "1":
-                n_f+=1
-        elif mask_1[i] == "0":
-            n_h+=1
-            
-    n_s = mask_2.count("1")
-    return opt[mask_1] + hire*n_h + salary*n_s + severance*n_f + total_cost_of_freelance(tasks, freelancers)
+                firing.append(i)
+        else:
+            hired.append(i)
+            if mask_1[i] == "0":
+                hiring.append(i)
+
+    c1 = total_cost_of_hire(hire, hiring)
+    c2 = total_cost_of_salary(salary, hired)
+    c3 = total_cost_of_severance(severance, firing)
+    c4 = total_cost_of_freelance(tasks, freelancers)
+    return opt[mask_1] + c1 + c2 + c3 + c4
         
 def ex4_2(tasks, k, hire, salary, severance) :
     masks = []
@@ -91,4 +119,7 @@ def test():
     tasks = build_test_tasks()
     for task in tasks:
         print(task)
-    return ex4_2(tasks, 2, 1, 2, 2)
+    hire = [1,1]    #same for skill1 and skill2
+    salary = [2,3]    #skill2 has higher salary
+    severance = [2,2]    #same for skill1 and skill2
+    return ex4_2(tasks, 2, hire, salary, severance)
