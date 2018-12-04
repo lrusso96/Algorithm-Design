@@ -1,2 +1,26 @@
 \section{Birtday NP}
-Reduce to Crique problem.
+Michele's birthday is coming up and he is thinking about who to invite for the
+party. He has male friends, denoted by the set M, and female friends, denoted by the set F.
+Between any two friends $x, y \in M \cup F$, there exists a score $w(x, y) \in \{0, 1\}$. The score tells
+us whether the two friends like each other or not (0 meaning that they do not like each other,
+1 meaning that they like each other). For the party to be successful we have to consider the
+following two constraints.
+\begin{itemize}
+	\item Michele would like to maximize the number of liked guests over the total number of
+	invited guests. Formally, let $I \subseteq M \cup F$ be the invited guests. Then we want to maximize
+	$\frac{1}{|I|} \sum_{x,y \in I} w(x,y)$
+	\item Michele insists upon having an equal number of female and male guests. That is $|I \cap M| =
+	|I \cap F|$.
+\end{itemize}
+\textbf{Goal:} Show that this problem is NP-complete.
+
+\section{Proof}
+First of all let's notice that without the second constraint (number of males equal to number of females) the problem can be solved in polynomial time with Goldberg algorithm, since the first requirement is asking for the densest subgraph. I am going to show that adding the second constraint the problem can be reduced to K-Clique problem, that is a well-known NP-complete problem. I am going to define a variant of the above problem ,that can simplify my proof. Let's call A the original problem, B the K-Clique problem and C the below: given a number K, find the densest subgraph with density K.
+Problem A can be reduced to problem C, because fixing a number K1 we can check if problem C has a solution. If yes, we can increment K, otherwise we can decrement K. After a certain number of iterations (see later for how many exactly) the problem C finds a solution for the maximum K: this solution is what the problem A is asking for. How many steps are needed to find the max K? We can start fixing K = $|V|$. If a solution is found, of course it is optimal for A; otherwise, we behalf K and retry, thus adopting a sort of "binary search of K", in the sense that we proceed in this way to find in a logarithmic (in function of $|V|$) number of steps the right K. So, finding a solution for problem A with this method simply increases the total cost of a factor $O(log|V|)$. It's time to proof that C can be reduced to B. If we are able to do this, we can conclude that also A can be reduced to B.
+\subsection{Part 1}
+Problem B asks for a Clique of size Kb. Let's label all the nodes as males (M set). At this point we can add a clique (we forge it, adding the nodes and the edges to the graph) of size Kb, all made up by females (F set). Let's fix Kc = (Kb-1)/2. In fact, we know that this Kc is the densest configuration I can have, because the number of edges in a clique is n(n-1)/2). 
+
+\subsection{Part 2}
+We can run ALG in order to find a solution with density Kc. The solution, if any, must contain the whole clique of size KB of females (we added previously) and a clique of size KB of males. The density of such a subgraph is, how we can expect, equal to ( Kb(Kb-1)/2 + Kb(Kb-1)/2 ) / (2*Kb) = (Kb(Kb-1)) / (2*Kb) = (Kb-1)/2 ), that is exactly the number we fixed as Kc in the first step!
+\subsection{Part 3}
+Problem B now can be solved, simply deleting from SOL the females (fake) nodes, thus obtaining a clique of size Kb, all made up by male nodes of course.
