@@ -18,6 +18,14 @@ def build_test_tasks():
     tasks.append(Task(8,1, "easy"))
     return tasks
 
+def build_Chris_tasks():
+    tasks = []
+    tasks.append(Task(1,3, "medium"))
+    tasks.append(Task(1,2, "easy"))
+    tasks.append(Task(2,6, "hard"))
+    tasks.append(Task(5,1, "easy"))
+    return tasks
+
 def dynamic_matrix(T, hire):
     m = [[0],[hire]]
     for i in range(T):
@@ -31,23 +39,23 @@ def total_cost_of_freelance(tasks):
         tot += task.c
     return tot
         
-def ex4_1(tasks, hire,, salary, severance):
+def ex4_1(tasks, hire, salary, severance):
     T = tasks[-1].t  # last instant of time
     m = dynamic_matrix(T, hire) 
     for i in range(1, T+1):
         current = []  # tasks at period i
         while len(tasks) > 0 and tasks[0].t == i:   # assume tasks are ordered!
             current.append(tasks.pop(0))
-        op1 = m[0][i-1] 
-        op2 = m[1][i-1] 
-        m[0][i] = total_cost_of_freelance(current) + min(op1, op2 + severance)
-        m[1][i] = salary + min(op1 + hire, op2)
+        opt1 = m[0][i-1]     
+        opt2 = m[1][i-1]     
+        m[0][i] = total_cost_of_freelance(current) + min(opt1, opt2 + severance)
+        m[1][i] = salary + min(opt1 + hire, opt2)
     #m[1][T] += severance  # necessary if the company wants to fire everyone at the end of T!
     print(m)
     return min(m[0][T], m[1][T])
 
 def test():
-    tasks = build_test_tasks()
+    tasks = build_Chris_tasks()
     for task in tasks:
         print(task)
-    return ex4_1(tasks, 1,2,2)
+    return ex4_1(tasks, 2,2,3)

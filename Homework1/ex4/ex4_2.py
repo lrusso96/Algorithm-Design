@@ -9,18 +9,7 @@ class Task:
     def __str__(self):
         return self.descr + " at t" + str(self.t) + ": $" + str(self.outsource)
 
-def build_test_tasks():
-    tasks = []
-    tasks.append(Task(1, 2, [0, 1], "medium"))
-    tasks.append(Task(3, 1, [1, 0], "easy"))
-    tasks.append(Task(3, 2, [0, 1], "medium"))
-    tasks.append(Task(3, 3, [1, 1], "hard"))
-    tasks.append(Task(7, 3, [1, 0], "hard"))
-    tasks.append(Task(7, 2, [1, 0], "medium"))
-    tasks.append(Task(8, 1, [1, 0], "easy"))
-    return tasks
-
-def init_cost(mask, hire):
+def initial_cost(mask, hire):
     hire_cost = 0
     for i in range(len(mask)):
         if mask[i] == "1":
@@ -30,7 +19,7 @@ def init_cost(mask, hire):
 def dynamic_matrix(T, masks, hire):
     m = {}
     for mask in masks:
-        m[mask] = init_cost(mask, hire)
+        m[mask] = initial_cost(mask, hire)
 
     for i in range(T):
         for mask in masks:
@@ -96,7 +85,7 @@ def ex4_2(tasks, k, hire, salary, severance) :
             current.append(tasks.pop(0))
         opt = {}
         for mask in masks:
-            opt[mask] = m[mask][i-1]
+            opt[mask] = m[mask][i-1]    #optimal of previous period
 
         for mask_2 in masks:
             for mask_1 in  masks:
@@ -114,12 +103,37 @@ def ex4_2(tasks, k, hire, salary, severance) :
             ret = min(ret, m[mask][T])
     print(m)
     return ret
-       
+
+def build_test_tasks():
+    tasks = []
+    tasks.append(Task(1, 2, [0, 1], "medium"))
+    tasks.append(Task(3, 1, [1, 0], "easy"))
+    tasks.append(Task(3, 2, [0, 1], "medium"))
+    tasks.append(Task(3, 3, [1, 1], "hard"))
+    tasks.append(Task(7, 3, [1, 0], "hard"))
+    tasks.append(Task(7, 2, [1, 0], "medium"))
+    tasks.append(Task(8, 1, [1, 0], "easy"))
+    return tasks
+
+def build_Fioraldi_tasks():
+    tasks = []
+    tasks.append(Task(1, 3, [1, 1], "medium"))
+    tasks.append(Task(1, 2, [1, 0], "easy"))
+    tasks.append(Task(2, 6, [1,0], "hard"))
+    tasks.append(Task(5, 1, [0, 1], "easy"))
+    tasks.append(Task(7, 1, [0, 1], "easy"))
+    tasks.append(Task(9, 7, [1, 1], "hard"))
+    
+    return tasks       
+
 def test():
-    tasks = build_test_tasks()
+    tasks = build_Fioraldi_tasks()
     for task in tasks:
         print(task)
-    hire = [1,1]    #same for skill1 and skill2
-    salary = [2,3]    #skill2 has higher salary
-    severance = [2,2]    #same for skill1 and skill2
-    return ex4_2(tasks, 2, hire, salary, severance)
+
+    # k=2
+    hire = [2,2]    #same for skill1 and skill2
+    salary = [2,2]    #skill2 has higher salary
+    severance = [3,3]    #same for skill1 and skill2
+    ret = ex4_2(tasks, 2, hire, salary, severance)
+    print("Min cost is", ret)

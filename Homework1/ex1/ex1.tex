@@ -13,16 +13,16 @@ This problem can be seen as a variant of the well-known K-centers decision probl
 It creates (and returns to Cristina) the desired permutation in this way.
 \begin{enumerate}
 	\item $C:= [\,]$
-	\item pick a random point c1 and add it to the list of centers C.
+	\item pick a random point c\_first and add it to the list of centers C.
 	\item for every point v $\in$ V (v $\notin C$), compute the minimum distance from C to v 
-	\item pick the point c2 with highest distance from the points in C
-	\item add c2 to C and continue the process until $|V| = |C|$
+	\item pick the point c\_next with highest distance from the points in C
+	\item add c\_next to C and continue the process from (3) until $|V| = |C|$
 \end{enumerate}
 
 \subsubsection{Running time}
-The algorithm adds $|X|$ points to C. How much costs adding a point to C? A point is added to C if, among all the points v $\notin$ C, it has the maximum distance from the ones in C. At each iteration we update the minimum distance from all points to C, simply considering if the new center can "decrease" the current distance of the point from C. It costs $|X - 1|$ for the second center, $|X - 2|$ for the third and so on. Since the iterations are $|X|$ and each one costs $O(|X|)$ we have the cost is $O(|X^2|)$
+The algorithm adds $|X|$ points to C. How much costs adding a point to C? A point is added to C if, among all the points v $\notin$ C, it has the maximum distance from the ones in C. At each iteration we update the minimum distance from all points to C, simply considering if the new center can "decrease" the current distance of the point from C. It costs $|X - 1|$ for the second center, $|X - 2|$ for the third and so on. Since the iterations are $|X|$ and each one costs $O(|X|)$ we have the cost is $O(|X^2|)$.
 \subsubsection{Proof of correctness}
-At each iteration the algorithm updates (if possible) the current maximum distance from the list of centers. This leads to a non increasing sequence of max\_values = ${d_1, d_2, ... d_{|X|}}$. Given an optimal solution O, we have to prove that the sequence computed with the greedy algorithm above is such that for every $i \in {1, 2, ... |X|}$, $d_g[i] = d_o[i] $, where $d_g[i]$ is the maximum distance from C in the greedy algorithm and $d_o[i]$ is the maximum distance from C in the optimal solution. Since my greedy algorithm guarantees that for every k, $d_g[k] \leq 2* d_o[k]$ and since the only possible values of d are 0, 1 or 3, we have these possible cases:
+At each iteration the algorithm updates (if possible) the current maximum distance from the list of centers. This leads to a non increasing sequence of max\_values = ${d_1, d_2, ... d_{|X|}}$. Given an optimal solution O, we have to prove that the sequence computed with the greedy algorithm above is such that for every $i \in \{1, 2, ... |X|\}$, $d_g[i] = d_o[i] $, where $d_g[i]$ is the maximum distance from C in the greedy algorithm and $d_o[i]$ is the maximum distance from C in the optimal solution. Since my greedy algorithm guarantees that for every k, $d_g[k] \leq 2* d_o[k]$ and since the only possible values of d are 0, 1 or 3, we have these possible cases:
 \begin{itemize}
 	\item $d_o[k] = 0 \Rightarrow  0 \leq d_g[k] \leq 2\cdot0 = 0 \Rightarrow d_g[k] = 0$ OK
 	\item $d_o[k] = 1 \Rightarrow  1 \leq d_g[k] \leq 2\cdot1 = 2 \Rightarrow d_g[k] = 1 $, OK since 1 is the only value that d can assume s.t. $1 \leq d \leq 2$
