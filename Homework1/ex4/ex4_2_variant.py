@@ -126,12 +126,12 @@ def build_Fioraldi_tasks():
     
     return tasks       
 
+# k=2
 def test():
     tasks = build_Fioraldi_tasks()
     for task in tasks:
         print(task)
 
-    # k=2
     hire = [2,2]    #same for skill1 and skill2
     salary = [2,2]    #skill2 has higher salary
     severance = [3,3]    #same for skill1 and skill2

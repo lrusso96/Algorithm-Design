@@ -1,13 +1,13 @@
 import itertools
 class Task:
-    def __init__(self, t, outsource, skills, descr=""):
+    def __init__(self, t, outsources, skills, descr=""):
         self.t = t
-        self.outsource = outsource
+        self.outsources = outsources
         self.skills = skills
         self.descr = descr
         
     def __str__(self):
-        return self.descr + " at t" + str(self.t) + ": $" + str(self.outsource)
+        return self.descr + " at t" + str(self.t) + ": $" + str(self.outsources)
 
 def initial_cost(mask, hire):
     hire_cost = 0
@@ -30,7 +30,7 @@ def total_cost_of_freelance(tasks, freelancers):
     tot = 0
     for task in tasks:
         for f in freelancers:
-            tot += task.skills[f] * task.outsource
+            tot += task.skills[f] * task.outsources[f]
     return tot
 
 def total_cost_of_salary(salary, hired):
@@ -117,13 +117,12 @@ def build_test_tasks():
 
 def build_Fioraldi_tasks():
     tasks = []
-    tasks.append(Task(1, 3, [1, 1], "medium"))
-    tasks.append(Task(1, 2, [1, 0], "easy"))
-    tasks.append(Task(2, 6, [1,0], "hard"))
-    tasks.append(Task(5, 1, [0, 1], "easy"))
-    tasks.append(Task(7, 1, [0, 1], "easy"))
-    tasks.append(Task(9, 7, [1, 1], "hard"))
-    
+    tasks.append(Task(1, [3,3], [1, 1], "medium"))
+    tasks.append(Task(1, [2,2], [1, 0], "easy"))
+    tasks.append(Task(2, [6,6], [1,0], "hard"))
+    tasks.append(Task(5, [1,1], [0, 1], "easy"))
+    tasks.append(Task(7, [1,1], [0, 1], "easy"))
+    tasks.append(Task(9, [7,7], [1, 1], "hard"))
     return tasks       
 
 def test():
