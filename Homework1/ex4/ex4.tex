@@ -30,11 +30,11 @@ Given a sequence of tasks, ordered by period t, the algorithm creates a matrix o
 	\item return the minimum between matrix[0][T] and matrix[1][T]
 \end{enumerate}
 
-\subsubsection{Running time}
-There are T iterations: at each of these the algorithm collects all the tasks belonging to that period and makes a binary decision, based on the costs already computed at the previous iteration. The cost per period, indeed, is O(1) since it is based on precomputed values. The overall cost of the algorithm is O(T).
-
 \subsubsection{Source code}
 I have implemented the exercise in Python language. The code is attached as ex4\_1.py.
+
+\subsubsection{Running time}
+There are T iterations: at each of these the algorithm collects all the tasks belonging to that period and makes a binary decision, based on the costs already computed at the previous iteration. The cost per period, indeed, is O(1) since it is based on precomputed values. The overall cost of the algorithm is O(T).
 
 \subsubsection{Proof of correctness}
 For each period t there are two possible cases: either we have a hired worker who can process all the tasks, or we do not have him: in this case, if there is some task to be processed, it has to be assigned necessarily to freelancers. The algorithm minimizes the cost of having 0 or 1 worker for every period, basing its analysis on the previous computations. The base case is for t = 0, where the minimum cost is equal to 0 (since the first task is at least at period t=1). The algorithm finds the same solution, since it picks the minimum between 0 (no hire) and some cost $c > 0$ (hire someone and pay him). Moreover, c is the minimum cost of having paid personnel in period 0. So for period t = 0 the algorithm correctly computes the two minimums and in particular the optimal solution. Now, suppose the algorithm correctly computes the minimum costs $opt[*][i]$ for a given period i and both the possible cases (hired worker for period i, or not). At period t = i+1, the algorithm computes the minimum between having or not a paid worker, considering \textbf{all the possible "paths"} from all the previous optimal solutions (possible hirings, firing, salaries, etc.), thus resulting in optimal solutions at period i+1. This can be easily deduced by applying the following recursive formulation:
@@ -56,6 +56,7 @@ m[0][i] and m[1][i] are optimal, and are the two only possible scenarios for per
 }
 \subsection{The algorithm}
 I have designed and implemented 3 algorithms to solve the problem above: the first one (ex\_4\_normal.py) is the generalization of the algorithm 4.1 and considers multiple freelancers for each task, meaning that also freelancers have exactly one skill as the other workers. This was my original algorithm (what I have understood at beginning). This algorithm can be also reformulated in a more efficient way, iterating k times the 4.1 algorithm: this is the second algorithm (ex\_4\_optimized.py). Finally, I have written a third algorithm, considering that the outsource cost is just a fixed amount, meaning that we do not outsource the skill but the task itself! (so it's like the freelancer is a super worker with all the necessary skills): this can be also solved in $O(T \cdot 2^k)$, but not in $O(kT)$.
+
 \subsubsection{Generalization of problem 4.1}
 Given a sequence of tasks, ordered by period t, and a number of skills k, the algorithm creates a matrix of costs. There are $2^k$ rows and T columns: matrix[mask][c] is the minimum cost if you decide to have $\# workers(mask)$ in period c, where mask represents a combination of hired workers (e.g. "0111" means that we have hired workers with skills 1,2,3 and no hired worker with skill 0). This matrix is built for each period t, considering which is the best option of the previous period that leads, with all the necessary costs, to the current one. Again, the minimum cost has to take in consideration possible firings, hirings and outsource costs.
 \begin{enumerate}
@@ -66,16 +67,18 @@ Given a sequence of tasks, ordered by period t, and a number of skills k, the al
 	\end{enumerate}
 	\item return the minimum between matrix[$mask_1$][T], matrix[$mask_2$][T], ... matrix[$mask_{2^k}$][T]
 \end{enumerate}
+
 \subsubsection{Optimized version}
 This algorithm just consists of running the 4.1 k times, and summing up all the minimum costs found at the end.
+
 \subsubsection{The variant with "super" freelancer}
 The algorithm is actually quite similar to the first one: there are $2^k$ choices we can do at each iteration (period). The only difference is in the function that computes the cost of freelancers, since the outsource cost is just a fixed quantity and not a value specific per task. Moreover, outsourcing a task may lead to not hire no other worker, since all the necessary skills are "covered" by the freelancer.
 
-\subsubsection{Running time}
-The number of iterations is always T (as in 4.1). What changes is the number of possible choices we can make at each step: this is $2^k$ for both first and third algorithm. Since these choices all use precomputed values, this means that the cost per choice is $O(2^k)$, for an overall O($T \cdot 2^{2k}$) = O($T \cdot 2^k$). In the optimized version we just run k times the algorithm 4.1, thus reducing the cost to $O(k \cdot T)$.
-
 \subsubsection{Source code}
 I have implemented the exercise in Python language. The code of the 3 algorithms is attached.
+
+\subsubsection{Running time}
+The number of iterations is always T (as in 4.1). What changes is the number of possible choices we can make at each step: this is $2^k$ for both first and third algorithm. Since these choices all use precomputed values, this means that the cost per choice is $O(2^k)$, for an overall O($T \cdot 2^{2k}$) = O($T \cdot 2^k$). In the optimized version we just run k times the algorithm 4.1, thus reducing the cost to $O(k \cdot T)$.
 
 \subsubsection{Proof of correctness}
 This can be seen as a generalization of the previous problem. Again the algorithm explores \textbf{all the possible paths} that minimize for every period and every scenario (what I have called mask), computing the optimal solution. This can be proved by induction, since the base case is easily exploitable (the algorithm computes $2^k$ costs, considering only the necessary cost) as done for algorithm 4.1: the fact that there are more choices does not alter the correctness, since all the subproblems are taken into account. 
