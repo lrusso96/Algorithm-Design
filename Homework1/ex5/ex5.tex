@@ -8,13 +8,13 @@ Federico is a mathematician who doesn't like stories and wants the exercise to g
 \end{enumerate}
 
 \subsection{The algorithm}
-Given e = (u,v):
+Given \textit{e} = (\textit{u},\textit{v}):
 \begin{enumerate}
-	\item run a DFS from the endpoint u \textbf{considering only} those edges (u,v) s.t. weight(u,v) $<$ weight(e).
+	\item run a DFS from the endpoint \textit{u} \textbf{considering only} those edges (\textit{a},\textit{b}) s.t. weight(\textit{a},\textit{b}) $<$ weight(\textit{e}).
 	\item Two possible cases:
 	\begin{enumerate}
-		\item If during the DFS there is an edge that leads to node v, then the edge e does not belong to any MST.
-		\item If the DFS terminates and case 1 never happens, then there exist some MST that contains e.
+		\item If during the DFS there is an edge that leads to node \textit{v}, then the edge \textit{e} does not belong to any MST.
+		\item If the DFS terminates and case 1 never happens, then there exist some MST that contains \textit{e}.
 	\end{enumerate}
 \end{enumerate}
 
