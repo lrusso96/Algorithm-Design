@@ -10,7 +10,7 @@ Federico is a mathematician who doesn't like stories and wants the exercise to g
 \subsection{The algorithm}
 Given e = (u,v):
 \begin{enumerate}
-	\item run a DFS from the endpoint u \textbf{considering only those edges that have weight less than that of e}.
+	\item run a DFS from the endpoint u \textbf{considering only} those edges (u,v) s.t. weight(u,v) $<$ weight(e).
 	\item Two possible cases:
 	\begin{enumerate}
 		\item If during the DFS there is an edge that leads to node v, then the edge e does not belong to any MST.
