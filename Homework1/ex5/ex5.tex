@@ -25,7 +25,7 @@ This is a simple variant of a DFS on a graph: the fact that we "filter" the edge
 See next sections.
 
 \subsubsection{Proof of correctness}
-I have used the MST cycle property in this way: we know that given a cycle in a graph, the largest edge among the ones that form the cycle cannot belong to a MST. So, the DFS run above tries to connect \textit{u} and \textit{v} with edges \textbf{strictly lower} than \textit{e}: if this happens, it means that there exist some cycle in the graph that connects \textit{u} and \textit{v} and, of course, such cycle contains the edge e: since all the edges considered during our \textit{custom} DFS are strictly lower than \textit{e}, we can conclude that \textit{e} is the largest edge in a cycle of the graph. So, by the MST cycle property, \textit{e} cannot belong to any MST. Since this condition is necessary and sufficient, this is enough for our proof.
+I have used the MST cycle property in this way: we know that given a cycle in a graph, the largest edge among the ones that form the cycle cannot belong to a MST. So, the DFS run above tries to connect \textit{u} and \textit{v} with edges \textbf{strictly lower} than \textit{e}: if this happens, it means that there exist some cycle in the graph that connects \textit{u} and \textit{v} and, of course, such cycle contains the edge \textit{e}: since all the edges considered during our \textit{custom} DFS are strictly lower than \textit{e}, we can conclude that \textit{e} is the largest edge in a cycle of the graph. So, by the MST cycle property, \textit{e} cannot belong to any MST. Since this condition is necessary and sufficient, this is enough for our proof.
 
 \subsection{The algorithm}
 \begin{enumerate}
