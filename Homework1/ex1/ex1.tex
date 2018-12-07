@@ -19,8 +19,8 @@ It creates (and returns to Cristina) the desired permutation in this way.
 	\item add c\_next to C, "relax" the distances of points outside C, and continue the process from (3) until $|V| = |C|$
 \end{enumerate}
 
-\subsubsection{Pseudo-code}
-The pseudo-code is attached as ex1.txt.
+\subsubsection{Source-code}
+I have implemented the algorithm in Python 3.7 and the source code is attached as ex1.py. Moreover, I provide the pseudo-code as ex1.txt.
 
 \subsubsection{Running time}
 The algorithm adds $|X|$ points to C. How much costs adding a point to C? A point is added to C if, among all the points v $\notin$ C, it has the maximum distance from the ones in C. At each iteration we update the minimum distance from all points to C, simply considering if the new center can "decrease" the current distance of the point from C. It costs $|X - 1|$ for the second center, $|X - 2|$ for the third and so on. Since the iterations are $|X|$ and each one costs $O(|X|)$ we have the cost is $O(|X^2|)$.
