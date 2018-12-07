@@ -106,27 +106,16 @@ def ex4_2(tasks, k, hire, salary, severance) :
 
 def build_test_tasks():
     tasks = []
-    tasks.append(Task(1, 2, [0, 1], "medium"))
-    tasks.append(Task(3, 1, [1, 0], "easy"))
-    tasks.append(Task(3, 2, [0, 1], "medium"))
-    tasks.append(Task(3, 3, [1, 1], "hard"))
-    tasks.append(Task(7, 3, [1, 0], "hard"))
-    tasks.append(Task(7, 2, [1, 0], "medium"))
-    tasks.append(Task(8, 1, [1, 0], "easy"))
-    return tasks
-
-def build_Fioraldi_tasks():
-    tasks = []
-    tasks.append(Task(1, [3,3], [1, 1], "medium"))
+    tasks.append(Task(1, [4,3], [1, 1], "medium"))
     tasks.append(Task(1, [2,2], [1, 0], "easy"))
-    tasks.append(Task(2, [6,6], [1,0], "hard"))
-    tasks.append(Task(5, [1,1], [0, 1], "easy"))
-    tasks.append(Task(7, [1,1], [0, 1], "easy"))
-    tasks.append(Task(9, [7,7], [1, 1], "hard"))
+    tasks.append(Task(2, [5,5], [1,0], "hard"))
+    tasks.append(Task(5, [1,3], [0, 1], "easy"))
+    tasks.append(Task(7, [1,6], [0, 1], "easy"))
+    tasks.append(Task(9, [7,2], [1, 1], "hard"))
     return tasks       
 
 def test():
-    tasks = build_Fioraldi_tasks()
+    tasks = build_test_tasks()
     for task in tasks:
         print(task)
 
