@@ -1,1 +1,53 @@
 \section{Drunk Giorgio}
+
+Let $D_t$ be a random variable that denotes the position at time t. Let $P_n = Pr(H | D_0 = n)$ be the probability Giorgio goes to hospital starting from position n. 
+\[   
+P_n = 
+\begin{cases}
+1 &\quad\text{if } n = -1\\
+p \cdot P_{n-1} + (1-p) \cdot P_{n+1} &\quad\text{if } n \geq 0\\
+\end{cases}
+\]
+Thus we obtain the following recurrence equation:	
+$\newline
+(1-p) \cdot P_{n+1} - P_n + p \cdot P_{n-1} = 0
+\newline$
+For $n = -1$ it is true since Giorgio has already touched the highway.
+Now, be E the event to make a step towards the highway.
+$P_n = Pr(H | D_0 = n)
+\newline
+= Pr(H \cap E | D_0 = n) + Pr(H \cap \lnot E | D_0 = n)
+\newline
+= Pr(E | D_0 = n) \cdot Pr(H | E \cap D_0 = n) + Pr(\lnot E | D_0 = n) \cdot Pr(H | \lnot E \cap D_0 = n)
+\newline
+= p \cdot Pr(H | D_1 = n-1) + (1-p) \cdot Pr(H | D_1 = n+1)
+\newline
+= p \cdot Pr(H | D_0 = n-1) + (1-p) \cdot Pr(H | D_0 = n+1)
+\newline
+= p \cdot P_{n-1} + (1-p) \cdot P_{n+1}
+\newline$ 
+ok!
+
+We can now solve the characteristic equation of the above recurrence equation:
+$(1-p) \cdot r^2 -r + p = 0$
+and finding the roots:
+\begin{enumerate}
+	\item $\frac{p}{1-p}$
+	\item 1
+\end{enumerate}
+
+We can thus write:
+$P_n = A \cdot (\frac{p}{1-p})^n + B \cdot 1^n = A \cdot (\frac{p}{1-p})^n + B$, where A and B are two constants.
+
+Since $P_0 = p = A + B \Rightarrow B = p - A$.
+
+Moreover $P_{-1} = 1 = A \cdot \frac{1-p}{p} + B \Rightarrow A = \frac{p-1}{1 - \frac{1-p}{p}}$
+
+Giorgio goes to hospital with probability:
+$Pr(H) = p - \frac{p-1}{1 - \frac{1-p}{p}} + \frac{p-1}{1 - \frac{1-p}{p}} \cdot \sum_{n=0} (\frac{p}{1-p})^n $
+
+the series converges for $p \leq \frac{1}{2}$, diverges for $p > \frac{1}{2}$.
+
+diverging here means that the event H always happens after an infinite amount of steps!
+
+if converges, we bound $Pr(H) \leq \frac{1}{2} \Leftrightarrow p \leq \frac{1}{2}$
