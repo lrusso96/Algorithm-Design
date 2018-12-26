@@ -1,1 +1,28 @@
 \section{Comet and Dasher}
+
+\begin{tabular}{l*{4}{c}}
+			& $T_C$, $T_D$ & $T_C$, $H_D$ & $H_C$, $T_D$ & $H_C$, $H_D$ \\
+	\hline
+	Comet & -2 & -1 & 2 & 4 \\
+	\hline
+	Dasher & 2 & 1 & -2 & -4 \\
+\end{tabular}
+
+Let's define:
+$\newline h_X$ = Pr(Head) for player X
+$\newline t_X$ = Pr(Tail) for player X
+
+We can easily find that:
+Pr(TC, TD) = $t_C \cdot t_D$
+Pr(TC, HD) = $t_C \cdot h_D$
+Pr(HC, TD) = $h_C \cdot t_D$
+Pr(HC, HD) = $h_C \cdot h_D$
+
+To guarantee that the game is fair, the expected value of Comet must be equal to the one of Dasher:
+
+$-2 t_c t_D -t_C h_D + 2h_C t_D + 4 h_C h_D = 2 t_c t_D t_C h_D + -2h_C t_D + -4 h_C h_D$,
+with $t_C + t_D = 1$ and $h_C + h_D = 1$ since they are probability functions.
+
+Resolving the system we obtain 
+
+$9h_C h_D -3h_C - 4h_D +2 = 0$
