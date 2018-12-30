@@ -1,38 +1,60 @@
 \section{Drunk Giorgio}
-Let $D_t$ be a random variable that denotes the position of Giorgio at time t. Let $P_n = Pr(H | D_0 = n)$ be the probability Giorgio goes to hospital starting from position n. 
+Let $P_n = Pr(Home | start = n)$ be the probability Giorgio goes back to home starting from position n and let q = 1 - p the probability to make a step towards home. Let N be the distance from home (Giorgio starts at 0).
 \[   
 P_n = 
 \begin{cases}
-1 &\quad\text{if } n = -1\\
-p \cdot P_{n-1} + (1-p) \cdot P_{n+1} &\quad\text{if } n \geq 0\\
+0, &\quad\text{if } n = -1\\
+p \cdot P_{n-1} + q \cdot P_{n+1}, &\quad\text{if } 0 \leq n < N\\
+1, &\quad\text{if } n = N\\
 \end{cases}
 \]
-Thus we obtain the following recurrence equation:	
-$\newline\newline
-(1-p) \cdot P_{n+1} - P_n + p \cdot P_{n-1} = 0
-\newline\newline$
-For $n = -1$ it is true since Giorgio has already touched the highway.
-Now, be E the event to make a step towards the highway.
-$\newline\newline
-P_n = Pr(H | D_0 = n)
-\newline
-= Pr(H \cap E | D_0 = n) + Pr(H \cap \lnot E | D_0 = n)
-\newline
-= Pr(E | D_0 = n) \cdot Pr(H | E \cap D_0 = n) + Pr(\lnot E | D_0 = n) \cdot Pr(H | \lnot E \cap D_0 = n)
-\newline
-= p \cdot Pr(H | D_1 = n-1) + (1-p) \cdot Pr(H | D_1 = n+1)
-\newline
-= p \cdot Pr(H | D_0 = n-1) + (1-p) \cdot Pr(H | D_0 = n+1)
-\newline
-= p \cdot P_{n-1} + (1-p) \cdot P_{n+1}
-\newline\newline$
-and this justifies the recurrence equation defined above.
-We can now solve the characteristic equation:
-$(1-p) \cdot r^2 -r + p = 0$ and find the roots:
-(i) $\frac{p}{1-p}$ and (ii) 1.
-We can thus write:
-$\newline\newline P_n = A \cdot (\frac{p}{1-p})^n + B \cdot 1^n = A \cdot (\frac{p}{1-p})^n + B$, where A and B are two constants.
-Since $P_0 = p$ (Giorgio is at beginning one step away from the highway!) $= A + B \Rightarrow B = p - A$ and $P_{-1} = 1 = A \cdot \frac{1-p}{p} + B \Rightarrow A = \frac{p-1}{1 - \frac{1-p}{p}}$, we can state that Giorgio goes to hospital with probability:
-$\newline\newline Pr(H) = p - \frac{p-1}{1 - \frac{1-p}{p}} + \frac{p-1}{1 - \frac{1-p}{p}} \cdot \sum_{n=0} (\frac{p}{1-p})^n\newline\newline$
-The series converges for $p \leq \frac{1}{2}$, and diverges for $p > \frac{1}{2}$, where diverging means that the event H always happens after an infinite amount of steps!
-If converges (its sum is a well-known one since it is a series of powers), we can also bound $Pr(H) \leq \frac{1}{2} \Leftrightarrow p \leq \frac{1}{2}$ (obtained by solving the inequality)
+We can rewrite $P_n$ in this way:
+$
+P_n = p \cdot P_n + q \cdot P_n = p \cdot P_{n-1} + q \cdot P_{n+1}
+\newline \Rightarrow P_{n+1} - P_n = \frac{p}{q} \cdot (P_n - P_{n-1}).
+\newline$
+In particular $P_1 - P_0 = \frac{p}{q} \cdot P_0;$ moreover $P_2 - P_1 = (\frac{p}{q})^2 \cdot P_0.$
+In general we have: $P_{n+1} - P_0 = \sum_{k=0}^{n} (P_{k+1} - P_k) = \sum_{k=0}^{n} ((\frac{p}{q})^{k+1} \cdot P_0) = \sum_{k=1}^{n} ((\frac{p}{q})^{k} \cdot P_0)
+\newline \Rightarrow P_{n+1} = P_0 + \sum_{k=1}^{n} ((\frac{p}{q})^{k} \cdot P_0) = P_0\sum_{k=0}^{n} (\frac{p}{q})^{k}$
+
+\[   
+P_{n+1} = 
+\begin{cases}
+P_0 (n+2), &\quad\text{if } p = q = 0.5\\
+P_0 (\frac{1-(\frac{p}{q})^{n+2}}{1-\frac{p}{q}}), &\quad\text{if } p \neq q\\
+\end{cases}
+\]
+For $n = N -1$:
+\[   
+1 = P_N = 
+\begin{cases}
+P_0 (N+1), &\quad\text{if } p = q = 0.5\\
+P_0 (\frac{1-(\frac{p}{q})^{N+1}}{1-\frac{p}{q}}), &\quad\text{if } p \neq q\\
+\end{cases}
+\]
+\[   
+P_0 = 
+\begin{cases}
+\frac{1}{N+1}, &\quad\text{if } p = q = 0.5\\
+\frac{1-\frac{p}{q}}{1-(\frac{p}{q})^{N+1}}, &\quad\text{if } p \neq q\\
+\end{cases}
+\]
+The probability to go to hospital starting from 0 is:
+\[   
+Pr(Hospital | start = 0) = 1 - \lim_{N \to +\infty} P_0 =
+\begin{cases}
+1, &\quad\text{if } p \geq q\\
+\frac{p}{q}, &\quad\text{if } p < q\\
+\end{cases}
+\]
+ 
+For $p \geq q$, Giorgio always goes (probability = 1) to hospital, instead for $0 \leq p \leq \frac{1}{3}$, Giorgio goes to hospital with probability less than 0.5 (easily obtained by solving the inequality above!).
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
