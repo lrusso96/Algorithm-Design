@@ -14,8 +14,8 @@ P_n = p \cdot P_n + q \cdot P_n = p \cdot P_{n-1} + q \cdot P_{n+1}
 \newline \Rightarrow P_{n+1} - P_n = \frac{p}{q} \cdot (P_n - P_{n-1}).
 \newline$
 In particular $P_1 - P_0 = \frac{p}{q} \cdot P_0;$ moreover $P_2 - P_1 = (\frac{p}{q})^2 \cdot P_0.$
-In general we have: $P_{n+1} - P_0 = \sum_{k=0}^{n} (P_{k+1} - P_k) = \sum_{k=0}^{n} ((\frac{p}{q})^{k+1} \cdot P_0) = \sum_{k=1}^{n} ((\frac{p}{q})^{k} \cdot P_0)
-\newline \Rightarrow P_{n+1} = P_0 + \sum_{k=1}^{n} ((\frac{p}{q})^{k} \cdot P_0) = P_0\sum_{k=0}^{n} (\frac{p}{q})^{k}$
+In general we have: $P_{n+1} - P_0 = \sum_{k=0}^{n} (P_{k+1} - P_k) = \sum_{k=0}^{n} ((\frac{p}{q})^{k+1} \cdot P_0) = \sum_{k=1}^{n+1} ((\frac{p}{q})^{k} \cdot P_0)
+\newline \Rightarrow P_{n+1} = P_0 + \sum_{k=1}^{n+1} ((\frac{p}{q})^{k} \cdot P_0) = P_0\sum_{k=0}^{n+1} (\frac{p}{q})^{k}$
 
 \[   
 P_{n+1} = 
