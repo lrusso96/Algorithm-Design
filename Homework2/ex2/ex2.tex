@@ -1,1 +1,45 @@
 \section{Valerio and Set Cover}
+Notation: A is the set of required skills; S is the set of all the people available, each one is represented as a set of skills $Sj \subseteq A; n = |A|$.
+We can express the Set Cover with Redundancies problem using the following ILP formulation:
+\begin{align*}
+&\min\sum_{S_j \in S} c{S_j} \cdot x_j \\
+&\sum_{S_j | A_i \in S_j} x_j \geq 3, & \forall A_i \in A \\
+&x_j \in \{0, 1\}, & \forall S_j \in S
+\end{align*}
+In order to build a randomized approximation consider the associated LP problem where $x^*_j \in [0, 1]$. The LP solution is a vector $x^*$ of real values.
+For each set $S_j \in S$, pick $S_j$ with probability $x^*j$, the entry corresponding to $S_j$ in $x^*$. Let C be the collection of sets picked. The expected cost of C is
+\[
+E[c(C)] = \sum_{S_j \in S} Pr[S_j \text{ is picked}] \cdot c(S_j) = \sum_{S_j \in S} x^*_j \cdot c(S_j) = OPT_f.
+\]
+Next, let us compute the probability that a skill $a \in U$ is covered at least 3 times by C. Suppose that a occurs in $k \geq 3$ (otherwise the problem has no solution) sets of S. Let the probabilities associated with these sets be $p_1, ... ,pk.$ Since a is fractionally covered in the optimal solution, $ \sum_{i = 1}^{k} p_i \geq 3.$ Using elementary calculus, it is easy to show that under this condition, the probability that a is covered by C is minimized when each of the $p_i$ is $\frac{3}{k}.$ Thus,
+\[
+Pr[a \text{ is covered}] \geq  1 - \sum_{i=0}^{2} \binom{k}{i} (1-\frac{3}{k})^{k-i}      =  1 - (1-\frac{3}{k})^k + 3 \cdot (1-\frac{3}{k})^{k-1} + \frac{17}{2}\cdot (1-\frac{3}{k})^{k-2}
+\]
+and we can bound this:
+\[
+Pr[a \text{ is covered}] \geq  e^{-\frac{5}{6}}
+\]
+To get a complete set cover with the redundancies, independently pick $\frac{6}{5}d \log n$ such subcollections, and compute their union, say C', where d is a constant such that:
+$({e^{-\frac{5}{6}}})^{\frac{6}{5} d\log n} \leq \frac{1}{4n}$. Clearly we have that:
+\[
+Pr[a \text{ is not covered}] \leq \frac{1}{4n}
+\]
+Summing up all a:
+\[
+Pr[C' \text{ is not a valid solution}] \leq n \cdot \frac{1}{4n} = \frac{1}{4}
+\]
+Clearly
+\[
+E[c(C')] \leq \frac{6}{5} \cdot OPT_f \cdot d \log n
+\]
+For Markov we have that:
+\[
+Pr[c(C')] \geq OPT_f \cdot 4\cdot \frac{6}{5} \log n \leq \frac{1}{4}
+\]
+This implies that:
+\[
+Pr[C' \text{ is valid and has cost } \leq OPT_f \cdot 4\cdot \frac{6}{5}] \geq \frac{1}{2}
+\]
+
+
+
