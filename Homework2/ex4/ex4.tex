@@ -1,1 +1,32 @@
 \section{Cristina and DNA}
+Let G be the set of genes and define a factorization f of the string D as an ordered multiset $\{g_1, g_2; ..., g_p\}$ with $g_i \in G$, such that the concatenation of $g_1, ..., g_p$ produces the string D. Let F be the set of all possible factorizations of D and $F_g:= \{f \in F : g \in f_g\}$ be the set of all factorizations that contain the gene g. We need $|G|$ boolean variables $x_g$, set to 1 if gene $g \in G$ is used to produce D, otherwise 0; and $|F|$ boolean variables $y_f$, indicating whether the factorization $f \in F$ is used or not. The ILP formulation and its dual are:
+\begin{align*}
+&\text{min} && \sum_{g \in G} w_g \cdot x_g & (*) \quad & \text{max}&& b  \\
+&\text{s. t.} && \sum_{f \in F_g} y_f \leq x_g, \quad \forall g \in G &&\text{s. t.} && \sum_{g \in f} a_g \geq b, \quad \forall f \in F \\
+&&& \sum_{f \in F} y_f \geq 1 &&&&  a_g \leq w_g \quad \forall g \in G\\
+&&& x_g,y_f \in \{0,1\}, \quad \forall g \in G, f \in F &&&& a_g,b \geq 0, \quad \forall g \in G\\
+\end{align*}
+The dual can be obtained with Lagrangian, after relaxing the original problem to LP: first of all the variables x and y are no longer boolean, but have to be $\geq 0$. Then we compute
+%\[
+%L(x,y,a,b,c,d) = \sum_{g \in G} w_g x_g - \sum_{g \in G} a_g (x_g - \sum_{f \in F_g} %y_f) - b (\sum_{f \in F} y_f - 1) - \sum_{g \in G} c_g x_g - \sum_{f \in F} y_f d_f =
+%\]
+%reordering variables:
+\[
+L(x,y,a,b,c,d) = \sum_{g \in G} x_g (w_g - a_g - c_g) - \sum_{f \in F} y_f (b + d_f) + \sum_{f \in F_g} y_f\sum_{g \in G} a_g + b
+\]
+and creating the dual ($d_1$), removing $d_f$ ($d_2$) and finally removing $c_g$ variables leads to the formulation (*) presented above.
+\begin{align*}
+(d_1) \quad&\text{max} && b & (d_2)\quad& \text{max}&& b  \\
+&\text{s. t.} && w_g -a_g-c_g = 0, \quad \forall g \in G &&\text{s. t.} && w_g - a_g -c_g = 0, \quad \forall g \in G \\
+&&& b +d_f = 0, \quad \forall f \in F &&&&  b \leq \sum_{g \in f} a_g, \quad \forall f \in F\\
+&&&\sum_{g \in G} a_g = 0, \quad \forall g \in G &&&& b,a_g,c_g \geq 0, \quad \forall g \in G, f \in F\\
+&&& b,a_g,c_g,d_f \geq 0, \quad \forall g \in G, f \in F  &&&&\\
+\end{align*}
+
+
+%\begin{align*}
+%\text{maximize} \quad& p \\
+%\text{subject to} \quad& \sum_{g \in f} q_g \geq p, \quad \forall f \in F \\
+%& q_g \leq w_g \quad \forall g \in G\\
+%& q_g,p \geq 0, \quad \forall g \in G\\
+%\end{align*}
