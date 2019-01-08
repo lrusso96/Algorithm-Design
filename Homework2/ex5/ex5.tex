@@ -12,15 +12,15 @@ The problem can be formalized with the following payouts matrix:
 \end{center}
 Let's now define:
 \begin{itemize}
-\item $h_X = Pr$(Head) for player X
-\item $t_X = Pr$(Tail) for player X
+\item $h_X = Pr[\text{Head}]$ for player X
+\item $t_X = Pr[\text{Tail}]$ for player X
 \end{itemize}
 We can easily find that:
 \begin{itemize}
-\item $Pr(T_C, T_D) = t_C \cdot t_D$
-\item $Pr(T_C, H_D) = t_C \cdot h_D$
-\item $Pr(H_C, T_D) = h_C \cdot t_D$
-\item $Pr(H_C, H_D) = h_C \cdot h_D$
+\item $Pr[T_C, T_D = t_C \cdot t_D$
+\item $Pr[T_C, H_D] = t_C \cdot h_D$
+\item $Pr[H_C, T_D] = h_C \cdot t_D$
+\item $Pr[H_C, H_D] = h_C \cdot h_D$
 \end{itemize}
 To guarantee that the game is fair, the expected value of Comet must be equal to the one of Dasher:
 $\newline\newline-2 t_c t_D -t_C h_D + 2h_C t_D + 4 h_C h_D = 2 t_c t_D t_C h_D + -2h_C t_D + -4 h_C h_D\newline\newline$

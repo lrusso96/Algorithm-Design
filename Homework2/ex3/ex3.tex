@@ -8,8 +8,8 @@ The cost of our solution is at most
 \[
 \sum_{i=1}^{k} \sum_{e \in F_i} c_e \leq \sum_{i=1}^{k} \sum_{e \in F^*_i} c_e
 \]
-Since each edge in an optimal solution $F*$ can be present in at most 2 different $F^*_i$, we have that our solution is bounded by:
+Since each edge in an optimal solution $F^*$ can be present in at most 2 different $F^*_i$, we have that our solution is bounded by:
 \[
-\sum_{i=1}^{k} \sum_{e \in F_i} c_e \leq \sum_{i=1}^{k} \sum_{e \in F^*_i} c_e \leq 2 \cdot \sum_{e \in F*} c_e \leq 2 \cdot OPT
+\sum_{i=1}^{k} \sum_{e \in F_i} c_e \leq \sum_{i=1}^{k} \sum_{e \in F^*_i} c_e \leq 2 \cdot \sum_{e \in F^*} c_e \leq 2 \cdot OPT
 \]
 and this shows the 2-approximation.
