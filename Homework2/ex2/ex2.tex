@@ -13,7 +13,7 @@ E[c(C)] = \sum_{S_j \in S} Pr[S_j \text{ is picked}] \cdot c(S_j) = \sum_{S_j \i
 \]
 Next, let us compute the probability that a skill $a \in U$ is covered at least 3 times by C. Suppose that \textit{a} occurs in $k \geq 3$ (otherwise the problem has no solution) sets of S. Let the probabilities associated with these sets be $p_1, ..., p_k.$ Since \textit{a} is fractionally covered in the optimal solution, $\sum_{i=1}^{k} p_i \geq 3.$ The probability that \textit{a} is covered by \textit{C} is minimized when each of the $p_i$ is equal to $\frac{3}{k}.$ Thus,
 \[
-Pr[a \text{ is covered}] \geq  1 - \sum_{i=0}^{2} \binom{k}{i} (1-\frac{3}{k})^{k-i} = 1 - (1-\frac{3}{k})^k - 3 \cdot (1-\frac{3}{k})^{k-1} - \frac{9}{2}\cdot (1-\frac{3}{k})^{k-2}
+Pr[a \text{ is covered}] \geq  1 - \sum_{i=0}^{2} \binom{k}{i} (\frac{3}{k})^{i} (1-\frac{3}{k})^{k-i} = 1 - (1-\frac{3}{k})^k - 3 \cdot (1-\frac{3}{k})^{k-1} - \frac{9}{2}\cdot (1-\frac{3}{k})^{k-2}
 \]
 and we can bound this:
 \[
