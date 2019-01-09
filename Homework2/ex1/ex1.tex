@@ -1,1 +1,21 @@
 \section{Michele's birthday}
+We can represent each friend as a node in an undirected graph G: the total number of nodes is \textit{n}. We also add an edge between two nodes x and y iff w(x,y) is equal to 1.
+In this case the function we want to maximize is exactly the density \cite{Dense subgraph} of a subgraph of G. The following algorithm achieves a 2-approximation: \begin{lstlisting}[language=C,mathescape=true, frame=single, numbers=left]
+$S_n \gets G$
+i $\gets \frac{n}{2}$
+while i $>$ 0 do
+	//minimum degree nodes
+	m $\gets x : deg(x) \leq y, \forall x,y \in S_i \cap M$
+	f $\gets x : deg(x) \leq y, \forall x,y \in S_i \cap F$
+	
+	//new candidate solution
+	$S_{i-1} \gets S_i - \{m,f \} $
+return $\max S_i, \forall i \in \{1,2, ..., \frac{n}{2}\}$ 
+\end{lstlisting}
+Let OPT be the optimal solution and its density $d_{OPT} = \frac{\sum_{e \in OPT} w(e)}{|OPT|} = \frac{W}{N}$.
+$\forall m,f: m \in M \cap OPT, f \in F \cap OPT$, we have that the sum of their degrees is at least twice as the density of OPT: in fact, $\frac{W}{N} \geq \frac{W - deg(m) - deg(f)}{N -2} => deg(m) + deg(f) \geq 2 \frac{W}{N}$.
+Letìs now consider the i-th iteration of the algorithm in which the first $m \in OPT$ or $f \in OPT$ is removed. In $S_i$ we have that for every possible pair (m,f) the sum of their degrees is at least $2 \cdot d_{OPT}$.
+We have that $W_{S_{i-1}}$ (i.e. the weight of the graph $S_{i-1}$) is at least equal to $\frac{2\cdot d_{OPT}\cdot \frac{S_{i-1}}{2}}{2}$ (it could be the case that some edge is considered twice, for this we divide by 2). The density of $S_{i-1}$ is then at least equal to $\frac{W_{S_{i-1}} } {|S_i-1|} = \frac{d_{OPT}}{2}$. The algorithm selects the graph with maximum density among the $\frac{n}{2}$ built, so the density of the solution is at least equal to the one of $S_{i-1}$ and this proves the 2-approximation factor.
+
+\subsection*{Running time}
+As for the running time, the algorithm makes $O(|V|)$ iterations, and searches for two nodes with minimum degree at each iteration; then it builds a new graph starting from the previous and removing two nodes and "their" edges. This can be achieved in $O(|V|\cdot (|V|+|E|)$ using lists of adjacency. To compute the density of a graph we need $O(|V|+|E|)$ if we want to count the number of edges and nodes in it. The total cost is $O(|V|\cdot (|V|+|E|)$
