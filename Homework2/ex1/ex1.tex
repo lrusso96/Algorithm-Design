@@ -5,8 +5,8 @@ $S_n \gets G$
 i $\gets \frac{n}{2}$
 while i $>$ 0 do
 	//minimum degree nodes
-	m $\gets x : deg(x) \leq y, \forall x,y \in S_i \cap M$
-	f $\gets x : deg(x) \leq y, \forall x,y \in S_i \cap F$
+	m $\gets x : deg(x) \leq deg(y), \forall x,y \in S_i \cap M$
+	f $\gets x : deg(x) \leq deg(y), \forall x,y \in S_i \cap F$
 	
 	//new candidate solution
 	$S_{i-1} \gets S_i - \{m,f \} $

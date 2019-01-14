@@ -8,7 +8,6 @@ The problem can be formalized with the following payouts matrix:
 		\hline
 		Dasher & -2 & 2 & 1 & -4 \\
 	\end{tabular}
-	
 \end{center}
 Let's now define:
 \begin{itemize}
@@ -23,10 +22,12 @@ We can easily find that:
 \item $Pr[H_C, H_D] = h_C \cdot h_D$
 \end{itemize}
 To guarantee that the game is fair, the expected value of Comet must be equal to the one of Dasher:
-$\newline\newline-2 t_c t_D -t_C h_D + 2h_C t_D + 4 h_C h_D = 2 t_c t_D t_C h_D + -2h_C t_D + -4 h_C h_D\newline\newline$
+\[
+-2 t_c t_D -t_C h_D + 2h_C t_D + 4 h_C h_D = 2 t_c t_D t_C h_D + -2h_C t_D + -4 h_C h_D
+\]
 with $t_C + t_D = 1$ and $h_C + h_D = 1$ since they are probability functions.
 Resolving the system we obtain 
-$\newline\newline9h_C h_D -3h_C - 4h_D +2 = 0\newline\newline$
+\[9h_C h_D -3h_C - 4h_D +2 = 0\]
 There are infinite solutions: simple solutions are 
 \begin{itemize}
 	\item $t_C = 1, h_C = 0, t_D = h_D = 0.5$
