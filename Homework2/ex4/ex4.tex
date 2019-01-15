@@ -1,30 +1,17 @@
 \section{Cristina and DNA}
-Let define a factorization \textit{f} of the string \textit{D} as an ordered multiset $\{g_1, g_2, ..., g_p\}$ with $g_i \in G$, such that the concatenation of $g_1, ..., g_p$ produces the string \textit{D}. Let \textit{F} be the set of all possible factorizations of \textit{D} and $F_g:= \{f \in F | g \in f\}$ be the set of all factorizations that contain the gene \textit{g}. We need $|G|$ boolean variables $x_g$, set to 1 if gene $g \in G$ is used to produce D and $|F|$ boolean variables $y_f$, indicating whether the factorization $f \in F$ is used or not. The ILP formulation (see \cite{String cover}) and its dual are:
+Let define a factorization \textit{f} of the string \textit{D} as an ordered multiset $\{g_1, g_2, ..., g_m\}$ with $g_i \in G$, such that the concatenation of $g_1, ..., g_m$ produces the string \textit{D}. Let \textit{F} be the set of all possible factorizations of \textit{D} and $F_g:= \{f \in F | g \in f\}$ be the set of all factorizations that contain the gene \textit{g}. We need $|G|$ boolean variables $x_g$, set to 1 if gene $g \in G$ is used to produce D and $|F|$ boolean variables $y_f$, indicating whether the factorization $f \in F$ is used or not. This would lead to an exponential number of variables! For this reason we can use an other approach \cite{Chris}: the factorizations of D are modeled as paths in the substring graph of D; in essence, its directed edges $(i,j)$ correspond to substring intervals, and the $|D| = n$ nodes to positions between characters. The following ILP formulation minimizes the cost of a path from source to sink with a unitary flow:
 \begin{align*}
-&\text{min} && \sum_{g \in G} w_g \cdot x_g & (*) \quad & \text{max}&& b  \\
-&\text{s. t.} && \sum_{f \in F_g} y_f \leq x_g, \quad \forall g \in G &&\text{s. t.} && \sum_{g \in f} a_g \geq b, \quad \forall f \in F \\
-&&& \sum_{f \in F} y_f \geq 1 &&&&  a_g \leq w_g \quad \forall g \in G\\
-&&& x_g,y_f \in \{0,1\}, \quad \forall g \in G, f \in F &&&& a_g,b \geq 0, \quad \forall g \in G\\
+&\text{min} && \sum_{k=1}^{m} w_k \cdot x_k \\
+&\text{s.t.} && x_{k_{|g_k = D[i:j]}} -z_{ij} \geq 0, \quad \forall (i,j) \in E\\
+&&& \sum_{(i,j) \in \delta^+(0)} z_{ij} = 1 \\
+&&& \sum_{(i,j) \in \delta^-(v)} z_{ij} = \sum_{(i,j) \in \delta^+(v)} z_{ij}, \quad \forall v \in \{1,..., n-1 \} \\
+&&& x_k, z_{ij} \in \{0, 1\}, \quad \forall k \in \{1, ..., m\}, \forall (i,j) \in E
 \end{align*}
-where in the primal problem the first $|G|$ inequalities guarantee that a gene g is bought iff a factorization with it is picked and the second inequality states that at least one factorization has to be chosen. The dual (*) can be obtained with Lagrangian, after relaxing the original problem to LP: first of all the variables x and y are no longer boolean, but have to be $\geq 0$. Then we compute
-%\[
-%L(x,y,a,b,c,d) = \sum_{g \in G} w_g x_g - \sum_{g \in G} a_g (x_g - \sum_{f \in F_g} %y_f) - b (\sum_{f \in F} y_f - 1) - \sum_{g \in G} c_g x_g - \sum_{f \in F} y_f d_f =
-%\]
-%reordering variables:
-\[
-L(x,y,a,b,c,d) = \sum_{g \in G} x_g (w_g - a_g - c_g) - \sum_{f \in F} y_f (b + d_f) + \sum_{f \in F_g} y_f\sum_{g \in G} a_g + b
-\]
-and after creating the dual ($d_1$), and then removing both $d_f$ ($d_2$) and $c_g$ variables, we obtain the formulation (*) presented above.
+After relaxing the problem to LP, using real variables $\geq 0$ and not boolean ones, we can compute the dual problem.
 \begin{align*}
-(d_1) \quad&\text{max} && b & (d_2)\quad& \text{max}&& b  \\
-&\text{s. t.} && w_g -a_g-c_g = 0, \quad \forall g \in G &&\text{s. t.} && w_g - a_g -c_g = 0, \quad \forall g \in G \\
-&&& b +d_f = 0, \quad \forall f \in F &&&&  b \leq \sum_{g \in f} a_g, \quad \forall f \in F\\
-&&&\sum_{g \in G} a_g = 0, \quad \forall g \in G &&&& b,a_g,c_g \geq 0, \quad \forall g \in G, f \in F\\
-&&& b,a_g,c_g,d_f \geq 0, \quad \forall g \in G, f \in F  &&&&\\
+&\text{max} && b_0 \\
+&\text{s.t.} && \sum_{(i,j) | g_k = D[i:j]} a_{ij} \geq w_k, \quad \forall k \in \{1,...,m\}\\
+&&& a_{ij} \geq b_i - b_j, \quad \forall (i,j) \in E \\
+&&& a_{ij} \geq 0, \quad \forall (i,j) \in E \\
 \end{align*}
-%\begin{align*}
-%\text{maximize} \quad& p \\
-%\text{subject to} \quad& \sum_{g \in f} q_g \geq p, \quad \forall f \in F \\
-%& q_g \leq w_g \quad \forall g \in G\\
-%& q_g,p \geq 0, \quad \forall g \in G\\
-%\end{align*}
+It is a maximization problem (the primal is a minimization one) with $n + |E|$ real variables deriving from the number of constraints of the primal, but not all of them are bounded (due to the equalities!); moreover, it has $m + |E|$ constraints due to the number of variables (both bounded and not) in the primal problem.

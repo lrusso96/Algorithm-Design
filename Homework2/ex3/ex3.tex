@@ -1,10 +1,9 @@
 \section{The "k min-cut" problem}
-
-Let $F^*$ be an optimal solution for the problem and let $F^*_i$ be the isolating cut in the optimal solution for $s_i$. Since $F_i$ is a minimum cut for $s_i$, 
+Let $F^*$ be an optimal solution for the problem and let $F^*_i$ be the cut that separates in the optimal solution $s_i$ from the other nodes. Since $F_i$ is a minimum cut for $s_i$ we have that: 
 \[
 \sum_{e \in F_i} c_e \leq \sum_{e \in F^*_i} c_e
 \]
-The cost of our solution is at most
+The cost of our solution, instead, is at most:
 \[
 \sum_{i=1}^{k} \sum_{e \in F_i} c_e \leq \sum_{i=1}^{k} \sum_{e \in F^*_i} c_e
 \]
@@ -12,4 +11,4 @@ Since each edge in an optimal solution $F^*$ can be present in at most 2 differe
 \[
 \sum_{i=1}^{k} \sum_{e \in F_i} c_e \leq \sum_{i=1}^{k} \sum_{e \in F^*_i} c_e \leq 2 \cdot \sum_{e \in F^*} c_e \leq 2 \cdot OPT
 \]
-and this shows the 2-approximation.
+and this shows the 2-approximation of the proposed algorithm.
