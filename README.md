@@ -1,4 +1,4 @@
-# Algorithm Design
+# Algorithm Design [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 This repo contains my homeworks for Algorithm Design course by professor S. Leonardi
 
